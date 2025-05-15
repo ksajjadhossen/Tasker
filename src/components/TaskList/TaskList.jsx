@@ -1,5 +1,5 @@
 import { FaStar } from "react-icons/fa";
-export default function TaskList({ tasks }) {
+export default function TaskList({ tasks, onEdit }) {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -32,7 +32,7 @@ export default function TaskList({ tasks }) {
           {tasks.map((task) => (
             <tr
               className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
-              key={tasks.id}
+              key={task.id}
             >
               <td>
                 {task.isFavorite ? (
@@ -60,7 +60,12 @@ export default function TaskList({ tasks }) {
               <td>
                 <div className="flex items-center justify-center space-x-3">
                   <button className="text-red-500">Delete</button>
-                  <button className="text-blue-500">Edit</button>
+                  <button
+                    className="text-blue-500"
+                    onClick={() => onEdit(task)}
+                  >
+                    Edit
+                  </button>
                 </div>
               </td>
             </tr>

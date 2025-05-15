@@ -12,26 +12,50 @@ const defaultTasks = {
   isFavorite: true,
 };
 export default function TaskBoard() {
-  // eslint-disable-next-line no-unused-vars
   const [tasks, setTasks] = useState([defaultTasks]);
-  // eslint-disable-next-line no-unused-vars
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
-  function handleAddTask(task) {
-    setTasks((prevTasks) => [...prevTasks, task]);
+  function handleAddEditTask(task, isAdd) {
+    if (isAdd) {
+      // Add new task
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        { ...task, id: crypto.randomUUID() },
+      ]);
+    } else {
+      // Edit existing task
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === task.id ? task : t))
+      );
+    }
     setShowAddTaskModal(false);
+    setTaskToEdit(null);
+  }
+
+  function handleEditTask(task) {
+    setTaskToEdit(task);
+    setShowAddTaskModal(true);
   }
 
   return (
     <section className="mb-20" id="tasks">
-      {showAddTaskModal && <AddTaskModal onSave={handleAddTask}></AddTaskModal>}
+      {showAddTaskModal && (
+        <AddTaskModal
+          onSave={handleAddEditTask}
+          taskToEdit={taskToEdit}
+        ></AddTaskModal>
+      )}
       <div className="container">
         <SearchTask></SearchTask>
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskActions
-            onAddClick={() => setShowAddTaskModal(true)}
+            onAddClick={() => {
+              setTaskToEdit(null);
+              setShowAddTaskModal(true);
+            }}
           ></TaskActions>
-          <TaskList tasks={tasks}></TaskList>
+          <TaskList tasks={tasks} onEdit={handleEditTask}></TaskList>
         </div>
       </div>
     </section>

@@ -1,42 +1,40 @@
 import { useState } from "react";
 
-export default function AddTaskModal({ onSave, taskToEdit }) {
-  const [task, setTask] = useState(
-    taskToEdit || {
-      title: "",
-      description: "",
-      tags: [],
-      priority: "",
-      isFavorite: false,
+export default function AddTaskModal({ onSave }) {
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+    tags: [],
+    priority: "",
+    isFavorite: false,
+  });
+
+  function handleChange(evt) {
+    evt.preventDefault();
+    const name = evt.target.name;
+    let value = evt.target.value;
+    if (name === "tags") {
+      value = value.split(",");
     }
-  );
-
-  const isAdd = !taskToEdit;
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    onSave(task, isAdd);
-  };
-
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
 
     setTask({
       ...task,
-      [name]: name === "tags" ? value.split(",") : value,
+      [name]: value,
     });
-  };
+  }
 
   return (
     <>
       <div className="bg-black opacity-70 h-full w-full z-10 absolute top-0 left-0"></div>
       <form
-        onSubmit={handleFormSubmit}
+        onSubmit={(e) => {
+          e.preventDefault(); // ✅ reload বন্ধ করবে
+          onSave(task);
+        }}
         className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-10 absolute left-2/6 top-1/3"
       >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
-          {isAdd ? "Add New Task" : "Edit Task"}
+          {/* {isAdd ? "Add New Task" : "Edit Task"} */}
         </h2>
 
         <div className="space-y-9 text-white lg:space-y-10">
@@ -99,12 +97,20 @@ export default function AddTaskModal({ onSave, taskToEdit }) {
           </div>
         </div>
 
-        <div className="mt-16 flex justify-center lg:mt-20">
+        <div className="mt-16 flex  lg:mt-20 justify-around">
           <button
+            onSubmit={() => onSave(task)}
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
-            {isAdd ? "Add Task" : "Update Task"}
+            {/* {isAdd ? "Add Task" : "Update Task"} */}
+            <h1>Add Task</h1>
+          </button>
+          <button
+            type="button"
+            className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+          >
+            <h1>return</h1>
           </button>
         </div>
       </form>

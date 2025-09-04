@@ -14,48 +14,23 @@ const defaultTasks = {
 export default function TaskBoard() {
   const [tasks, setTasks] = useState([defaultTasks]);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
-  const [taskToEdit, setTaskToEdit] = useState(null);
+  // const [taskToEdit, setTaskToEdit] = useState(null);
 
-  function handleAddEditTask(task, isAdd) {
-    if (isAdd) {
-      // Add new task
-      setTasks((prevTasks) => [
-        ...prevTasks,
-        { ...task, id: crypto.randomUUID() },
-      ]);
-    } else {
-      // Edit existing task
-      setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.id === task.id ? task : t))
-      );
-    }
+  function handleAddTask(newTask) {
+    setTasks([...tasks, newTask]);
     setShowAddTaskModal(false);
-    setTaskToEdit(null);
-  }
-
-  function handleEditTask(task) {
-    setTaskToEdit(task);
-    setShowAddTaskModal(true);
   }
 
   return (
     <section className="mb-20" id="tasks">
-      {showAddTaskModal && (
-        <AddTaskModal
-          onSave={handleAddEditTask}
-          taskToEdit={taskToEdit}
-        ></AddTaskModal>
-      )}
+      {showAddTaskModal && <AddTaskModal onSave={handleAddTask} />}
       <div className="container">
         <SearchTask></SearchTask>
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskActions
-            onAddClick={() => {
-              setTaskToEdit(null);
-              setShowAddTaskModal(true);
-            }}
+            onAddClick={() => setShowAddTaskModal(true)}
           ></TaskActions>
-          <TaskList tasks={tasks} onEdit={handleEditTask}></TaskList>
+          <TaskList tasks={tasks}></TaskList>
         </div>
       </div>
     </section>

@@ -64,6 +64,13 @@ export default function TaskBoard() {
     setTasks(newTasks);
   }
 
+  function handleSearch(searchTerm) {
+    const filtered = tasks.filter((task) =>
+      task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+    setTasks([...filtered]);
+  }
+
   return (
     <section className="mb-20" id="tasks">
       {showAddTaskModal && (
@@ -74,7 +81,7 @@ export default function TaskBoard() {
         />
       )}
       <div className="container">
-        <SearchTask></SearchTask>
+        <SearchTask onSearch={handleSearch}></SearchTask>
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskActions
             handleDeleteAll={handleDeleteAllTasks}

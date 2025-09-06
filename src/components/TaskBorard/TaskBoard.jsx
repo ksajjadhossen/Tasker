@@ -18,7 +18,7 @@ export default function TaskBoard() {
 
   function handleAddTask(newTask, isAdd) {
     if (isAdd) {
-      setTasks([...tasks, newTask]);
+      setTasks([...tasks, { id: tasks.length + 1, ...newTask }]);
     } else {
       setTasks(
         tasks.map((task) => {
@@ -28,6 +28,7 @@ export default function TaskBoard() {
           return task;
         })
       );
+      setTaskToUpdate(null);
     }
 
     setShowAddTaskModal(false);
@@ -38,10 +39,18 @@ export default function TaskBoard() {
     setShowAddTaskModal(true);
   }
 
+  function handleCloseTask() {
+    setTaskToUpdate(null);
+    setShowAddTaskModal(false);
+  }
   return (
     <section className="mb-20" id="tasks">
       {showAddTaskModal && (
-        <AddTaskModal onSave={handleAddTask} taskToUpdate={taskToUpdate} />
+        <AddTaskModal
+          onClose={handleCloseTask}
+          onSave={handleAddTask}
+          taskToUpdate={taskToUpdate}
+        />
       )}
       <div className="container">
         <SearchTask></SearchTask>

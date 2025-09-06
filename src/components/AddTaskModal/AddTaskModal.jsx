@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function AddTaskModal({ onSave, taskToUpdate }) {
+export default function AddTaskModal({ onSave, onClose, taskToUpdate }) {
   const [task, setTask] = useState(
     taskToUpdate || {
       title: "",
@@ -104,12 +104,13 @@ export default function AddTaskModal({ onSave, taskToUpdate }) {
         <div className="mt-16 flex  lg:mt-20 justify-around">
           <button
             onClick={() => onSave(task, isAdd)}
-            type="submit"
+            type="button"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
             {isAdd ? "Add Task" : "Update Task"}
           </button>
           <button
+            onClick={onClose}
             type="button"
             className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >

@@ -29,9 +29,9 @@ export default function TaskList({ tasks, onEdit }) {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
+          {tasks.map((task, i) => (
             <tr
-              key={task.id}
+              key={i}
               className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
             >
               <td>

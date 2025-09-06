@@ -43,6 +43,11 @@ export default function TaskBoard() {
     setTaskToUpdate(null);
     setShowAddTaskModal(false);
   }
+
+  function handleDeleteTask(taskId) {
+    const notDeletedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(notDeletedTasks);
+  }
   return (
     <section className="mb-20" id="tasks">
       {showAddTaskModal && (
@@ -58,7 +63,11 @@ export default function TaskBoard() {
           <TaskActions
             onAddClick={() => setShowAddTaskModal(true)}
           ></TaskActions>
-          <TaskList tasks={tasks} onEdit={handleEditTask}></TaskList>
+          <TaskList
+            onDeleteTask={handleDeleteTask}
+            tasks={tasks}
+            onEdit={handleEditTask}
+          ></TaskList>
         </div>
       </div>
     </section>

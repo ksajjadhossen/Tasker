@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function AddTaskModal({ onSave, onClose, taskToUpdate }) {
   const [task, setTask] = useState(
     taskToUpdate || {
+      id: crypto.randomUUID(),
       title: "",
       description: "",
       tags: [],

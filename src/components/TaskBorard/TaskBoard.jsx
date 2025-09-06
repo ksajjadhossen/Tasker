@@ -3,7 +3,9 @@ import SearchTask from "../SearchTask/SearchTask";
 import TaskActions from "../TaskActions/TaskActions";
 import TaskList from "../TaskList/TaskList";
 import AddTaskModal from "../AddTaskModal/AddTaskModal";
+import { GiClick } from "react-icons/gi";
 const defaultTasks = {
+  id: crypto.randomUUID(),
   title: "Task 1",
   description: "Description for Task 1",
   tags: ["tag1", "tag2"],
@@ -54,6 +56,14 @@ export default function TaskBoard() {
     setTasks(deleted);
   }
 
+  function handleFavoriteButton(taskId) {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    const newTasks = [...tasks];
+
+    newTasks[taskIndex].isFavorite = !newTasks[taskIndex].isFavorite;
+    setTasks(newTasks);
+  }
+
   return (
     <section className="mb-20" id="tasks">
       {showAddTaskModal && (
@@ -73,6 +83,7 @@ export default function TaskBoard() {
           <TaskList
             onDeleteTask={handleDeleteTask}
             tasks={tasks}
+            onFav={handleFavoriteButton}
             onEdit={handleEditTask}
           ></TaskList>
         </div>

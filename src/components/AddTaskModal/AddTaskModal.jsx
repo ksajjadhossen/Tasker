@@ -1,13 +1,17 @@
 import { useState } from "react";
 
-export default function AddTaskModal({ onSave }) {
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-    tags: [],
-    priority: "",
-    isFavorite: false,
-  });
+export default function AddTaskModal({ onSave, taskToUpdate }) {
+  const [task, setTask] = useState(
+    taskToUpdate || {
+      title: "",
+      description: "",
+      tags: [],
+      priority: "",
+      isFavorite: false,
+    }
+  );
+
+  const [isAdd, setIsAdd] = useState(Object.is(taskToUpdate, null));
 
   function handleChange(evt) {
     evt.preventDefault();
@@ -99,12 +103,11 @@ export default function AddTaskModal({ onSave }) {
 
         <div className="mt-16 flex  lg:mt-20 justify-around">
           <button
-            onSubmit={() => onSave(task)}
+            onClick={() => onSave(task, isAdd)}
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
           >
-            {/* {isAdd ? "Add Task" : "Update Task"} */}
-            <h1>Add Task</h1>
+            {isAdd ? "Add Task" : "Update Task"}
           </button>
           <button
             type="button"

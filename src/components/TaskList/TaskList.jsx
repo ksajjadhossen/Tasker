@@ -31,8 +31,8 @@ export default function TaskList({ tasks, onEdit }) {
         <tbody>
           {tasks.map((task) => (
             <tr
-              className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
               key={task.id}
+              className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2"
             >
               <td>
                 {task.isFavorite ? (

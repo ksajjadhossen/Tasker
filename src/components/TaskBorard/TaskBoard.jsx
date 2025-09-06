@@ -4,6 +4,7 @@ import TaskActions from "../TaskActions/TaskActions";
 import TaskList from "../TaskList/TaskList";
 import AddTaskModal from "../AddTaskModal/AddTaskModal";
 import { GiClick } from "react-icons/gi";
+import NoTaskFound from "../NoFound";
 const defaultTasks = {
   id: crypto.randomUUID(),
   title: "Task 1",
@@ -87,12 +88,16 @@ export default function TaskBoard() {
             handleDeleteAll={handleDeleteAllTasks}
             onAddClick={() => setShowAddTaskModal(true)}
           ></TaskActions>
-          <TaskList
-            onDeleteTask={handleDeleteTask}
-            tasks={tasks}
-            onFav={handleFavoriteButton}
-            onEdit={handleEditTask}
-          ></TaskList>
+          {tasks.length > 0 ? (
+            <TaskList
+              onDeleteTask={handleDeleteTask}
+              tasks={tasks}
+              onFav={handleFavoriteButton}
+              onEdit={handleEditTask}
+            ></TaskList>
+          ) : (
+            <NoTaskFound></NoTaskFound>
+          )}
         </div>
       </div>
     </section>
